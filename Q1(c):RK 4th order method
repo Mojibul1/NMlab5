@@ -1,0 +1,48 @@
+//c.RK 4th order method
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double dy_dx(double x, double y) {
+    return x + y;
+}
+
+double rungeKutta(double x0, double y0, double h, double target_x) {
+    double x = x0;
+    double y = y0;
+
+    while (x < target_x) {
+        double k1 = h * dy_dx(x, y);
+        double k2 = h * dy_dx(x + h/2, y + k1/2);
+        double k3 = h * dy_dx(x + h/2, y + k2/2);
+        double k4 = h * dy_dx(x + h, y + k3);
+
+        y += (k1 + 2*k2 + 2*k3 + k4) / 6;
+        x += h;
+    }
+
+    return y;
+}
+
+int main() {
+    double x0, y0, target_x, h;
+
+    cout << "Enter the initial value of y (y0): ";
+    cin >> y0;
+
+    cout << "Enter the target value of x: ";
+    cin >> target_x;
+
+    cout << "Enter the step size (h): ";
+    cin >> h;
+
+    double x = 0; // Starting x value
+
+    // Calculate y using RK4 method with the given inputs
+    double y = rungeKutta(x, y0, h, target_x);
+
+    cout << "Approximate value of y when x = " << target_x << " using RK4 method with h = " << h << ": " << y << endl;
+
+    return 0;
+}
