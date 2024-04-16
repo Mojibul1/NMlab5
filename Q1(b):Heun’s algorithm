@@ -1,45 +1,45 @@
 //b.Heun’s algorithm
 
 #include <iostream>
-#include <cmath>
 using namespace std;
 
-double dy_dx(double x, double y) {
+// Function to calculate the derivative dy/dx
+double derivative(double x, double y) {
     return x + y;
 }
 
-double heun(double x0, double y0, double h, double target_x) {
+// Function to approximate y using Heun's method
+double heunsMethod(double x0, double y0, double h, double targetX) {
     double x = x0;
     double y = y0;
-
-    while (x < target_x) {
-        double k1 = dy_dx(x, y);
-        double k2 = dy_dx(x + h, y + h * k1);
-        y += 0.5 * h * (k1 + k2);
+    
+    while (x < targetX) {
+        // Predictor step
+        double predictor = y + h * derivative(x, y);
+        
+        // Corrector step
+        y = y + (h / 2) * (derivative(x, y) + derivative(x + h, predictor));
+        
         x += h;
     }
-
+    
     return y;
 }
 
 int main() {
-    double x0, y0, target_x, h;
-
-    cout << "Enter the initial value of y (y0): ";
-    cin >> y0;
-
-    cout << "Enter the target value of x: ";
-    cin >> target_x;
-
-    cout << "Enter the step size (h): ";
-    cin >> h;
-
-    double x = 0; // Starting x value
-
-    // Calculate y using Heun's method with the given inputs
-    double y = heun(x, y0, h, target_x);
-
-    cout << "Approximate value of y when x = " << target_x << " using Heun's method with h = " << h << ": " << y << endl;
-
+    double x0 = 0; // Initial value of x
+    double y0 = 1; // Initial value of y
+    double targetX = 0.4; // Target value of x
+    double h1 = 0.1; // Step size 1
+    double h2 = 0.2; // Step size 2
+    
+    // Approximating y using Heun's method with h = 0.1
+    double y_approx_1 = heunsMethod(x0, y0, h1, targetX);
+    cout << "Approximate value of y with h = 0.1: " << y_approx_1 << endl;
+    
+    // Approximating y using Heun's method with h = 0.2
+    double y_approx_2 = heunsMethod(x0, y0, h2, targetX);
+    cout << "Approximate value of y with h = 0.2: " << y_approx_2 << endl;
+    
     return 0;
 }
